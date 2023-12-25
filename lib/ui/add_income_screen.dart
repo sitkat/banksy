@@ -30,7 +30,11 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
           leading: CupertinoNavigationBarBackButton(
             color: AppColors.accent,
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                      const NavigationScreen()));
             },
           ),
           title: Text(
@@ -74,14 +78,15 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: InkWell(
                     onTap: () async {
-                      if (formKey.currentState?.validate() != true)
-                      {return;} else{
+                      if (formKey.currentState?.validate() != true) {
+                        return;
+                      } else {
                         await saveIncomeToDatabase();
-                        // Navigator.pop(context);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const NavigationScreen()));
+                                builder: (context) =>
+                                    const NavigationScreen()));
                       }
                     },
                     child: Container(

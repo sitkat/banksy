@@ -1,4 +1,5 @@
 import 'package:banksy/theme/app_colors.dart';
+import 'package:banksy/ui/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 PreferredSizeWidget CustomAppBar(BuildContext context, String title) {
@@ -14,7 +15,10 @@ PreferredSizeWidget CustomAppBar(BuildContext context, String title) {
     actions: [
       IconButton(
         icon: Icon(Icons.settings_outlined),
-        onPressed: () {
+        onPressed: () {Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const SettingsScreen()));
         },
       ),
     ],

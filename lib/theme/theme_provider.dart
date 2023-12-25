@@ -8,7 +8,7 @@ class CustomThemes{
     primaryColor: AppColors.primary,
     iconTheme:  IconThemeData(color: AppColors.primary),
     cardColor: AppColors.dark_surface,
-    canvasColor: AppColors.dark_incomes,
-    dividerColor: AppColors.inout,
+    // canvasColor: AppColors.dark_incomes,
+    // dividerColor: AppColors.inout,
   );
 }
