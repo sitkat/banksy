@@ -13,6 +13,15 @@ class AppColors {
   static const Color dark_incomes = Color(0xff22A82F);
   static const Color black = Color(0xff000000);
 
+  //Game
+  static const Color game1 = Color(0xff75A8F4);
+  static const Color game2 = Color(0xff63C132);
+  static const Color game3 = Color(0xffFB62F6);
+  static const Color game4 = Color(0xff4B296B);
+  static const Color game5 = Color(0xffCCA43B);
+  static const Color game6 = Color(0xffFBC2B5);
+  static const Color game7 = Color(0xff7C616C);
+  static const Color game8 = Color(0xff0A1045);
 
   static const Color scaffoldColor = Color(0xff1E1E1E);
 

@@ -1,3 +1,4 @@
+import 'package:banksy/ui/game_screen.dart';
 import 'package:banksy/ui/home_screen.dart';
 import 'package:banksy/ui/income_screen.dart';
 import 'package:banksy/ui/onboard_screen.dart';
@@ -19,7 +20,7 @@ class _MyAppState extends State<NavigationScreen> {
     IncomeScreen(),
     OnBoardScreen(),
     OnBoardScreen(),
-    OnBoardScreen(),
+    GameScreen(),
   ];
 
   @override
