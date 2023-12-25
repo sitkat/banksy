@@ -206,7 +206,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: ListView.builder(
                 itemCount: communities.length > 2 ? 2 : communities.length,
-                // Ограничиваем количество карточек до 2
                 itemBuilder: (context, index) {
                   final community = communities[index];
                   final String videoId = community['imageId'] ?? '';
@@ -219,7 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   return Container(
                     margin: EdgeInsets.only(bottom: 10),
-                    // Добавляем отступ между элементами списка
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -235,7 +233,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               showVideoProgressIndicator: true,
                             ),
                             SizedBox(width: 8),
-                            // Добавляем промежуток между YoutubePlayer и текстом
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +253,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
-                                        // Тут
                                         children: [
                                           // ClipRRect(
                                           //   borderRadius: BorderRadius.circular(12), // Радиус закругления углов

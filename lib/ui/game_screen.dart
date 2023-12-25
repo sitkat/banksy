@@ -57,14 +57,12 @@ class _GameScreenState extends State<GameScreen> {
 
   void checkWin() {
     if (cardFlips.every((flipped) => !flipped)) {
-      // Все карты перевернуты, отображаем Toast "You WON!"
       Fluttertoast.showToast(
         msg: 'You WON!',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
       );
 
-      // Показываем диалоговое окно
       showAlertDialog();
     }
   }
