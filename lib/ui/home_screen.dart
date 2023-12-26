@@ -1,10 +1,9 @@
+import 'package:banksy/data/utils/app_parser.dart';
 import 'package:banksy/theme/app_colors.dart';
 import 'package:banksy/theme/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 import '../data/database_helper.dart';
 
@@ -19,12 +18,16 @@ class _HomeScreenState extends State<HomeScreen> {
   double balance = 0.0;
   String cardNumber = '3123 4792 4629 4519';
   String expiredDate = '10/28';
+  late List<Map<String, dynamic>> news = [];
   late List<Map<String, dynamic>> communities = [];
+
+  AppParser appParser = AppParser();
 
   @override
   void initState() {
     super.initState();
     _fetchCommunities();
+    _fetchNews();
     _loadIncomesFromDatabase();
   }
 
@@ -51,21 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<String?> _fetchChannelImage(String channelId, String apiKey) async {
-    final url =
-        'https://www.googleapis.com/youtube/v3/channels?part=snippet&id=$channelId&key=$apiKey';
-
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-
-      if (data['items'] != null && data['items'].isNotEmpty) {
-        return data['items'][0]['snippet']['thumbnails']['default']['url'];
-      }
-    }
-
-    return null;
+  Future<void> _fetchNews() async {
+    final Database db = await DatabaseHelper.instance.database;
+    final List<Map<String, dynamic>> result = await db.query('News');
+    setState(() {
+      news = result;
+    });
   }
 
   @override
@@ -184,6 +178,102 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: news.length > 2 ? 2 : news.length,
+                itemBuilder: (context, index) {
+                  final _news = news[index];
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  image: AssetImage(_news['imageId']),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              height: 78,
+                              width: 78,
+                            ),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _news['name'] ?? '',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                  SizedBox(height: 17),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Image.asset(
+                                            _news['authorImage'],
+                                            height: 14,
+                                            width: 14,
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            '${_news['author'] ?? ''}',
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              color: AppColors.whiteWithOpacity,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${_news['takesTime'] ?? ''}',
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              color: AppColors.whiteWithOpacity,
+                                            ),
+                                          ),
+                                          SizedBox(width: 15),
+                                          Text(
+                                            '${appParser.formatTimeAgo(_news['date']) ?? ''}',
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              color: AppColors.whiteWithOpacity,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -227,10 +317,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            YoutubePlayer(
-                              width: 90,
-                              controller: _youtubePlayerController,
-                              showVideoProgressIndicator: true,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Container(
+                                width: 78,
+                                height: 78,
+                                child: YoutubePlayer(
+                                  controller: _youtubePlayerController,
+                                  showVideoProgressIndicator: true,
+                                ),
+                              ),
                             ),
                             SizedBox(width: 8),
                             Expanded(
@@ -247,22 +343,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: AppColors.white,
                                     ),
                                   ),
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 17),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
-                                          // ClipRRect(
-                                          //   borderRadius: BorderRadius.circular(12), // Радиус закругления углов
-                                          //   child: Image.network(
-                                          //     fetchChannelImage('marktilbury', ' ') ?? '',
-                                          //     width: 24, // Ширина изображения канала
-                                          //     height: 24, // Высота изображения канала
-                                          //     fit: BoxFit.cover, // Заполнение изображения в области
-                                          //   ),
-                                          // ),
+                                          Image.asset(
+                                            community['authorImage'],
+                                            height: 14,
+                                            width: 14,
+                                          ),
+                                          SizedBox(width: 5),
                                           Text(
                                             '${community['author'] ?? ''}',
                                             style: TextStyle(
@@ -272,19 +365,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ],
                                       ),
-                                      Text(
-                                        '${community['takesTime'] ?? ''}',
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: AppColors.whiteWithOpacity,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${community['date'] ?? ''}',
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: AppColors.whiteWithOpacity,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${community['takesTime'] ?? ''}',
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              color: AppColors.whiteWithOpacity,
+                                            ),
+                                          ),
+                                          SizedBox(width: 15),
+                                          Text(
+                                            '${appParser.formatTimeAgo(community['date']) ?? ''}',
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              color: AppColors.whiteWithOpacity,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

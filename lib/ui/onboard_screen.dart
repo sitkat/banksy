@@ -105,7 +105,6 @@ class _OnBoardState extends State<OnBoardScreen> {
                           ],
                         ),
                       ),
-
                     ],
                   ),
                 ),

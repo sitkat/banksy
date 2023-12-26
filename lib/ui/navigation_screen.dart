@@ -45,7 +45,7 @@ class _MyAppState extends State<NavigationScreen> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled),
+              icon: Icon(Icons.home_outlined),
               label: 'Home',
             ),
             BottomNavigationBarItem(
@@ -53,15 +53,15 @@ class _MyAppState extends State<NavigationScreen> {
               label: 'Income',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.near_me),
+              icon: Icon(Icons.library_books_outlined),
               label: 'News',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.video_call),
+              icon: Icon(Icons.slideshow),
               label: 'Community',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.filter_none_sharp),
+              icon: Icon(Icons.casino_outlined),
               label: 'Game',
             ),
           ],
