@@ -59,11 +59,12 @@ class _IncomeScreenState extends State<IncomeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 40.0),
                       child: InkWell(
                         onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AddIncomeScreen()));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddIncomeScreen(),
+                            ),
+                          );
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -132,8 +133,12 @@ class _IncomeScreenState extends State<IncomeScreen> {
         child: FloatingActionButton(
           backgroundColor: AppColors.accent,
           onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const AddIncomeScreen()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddIncomeScreen(),
+              ),
+            );
           },
           child: Icon(
             Icons.add,

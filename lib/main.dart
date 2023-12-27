@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: CustomThemes.darkTheme,
       home: isViewed != 0 ? const OnBoardScreen() : const NavigationScreen(),
     );

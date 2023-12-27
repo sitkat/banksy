@@ -30,11 +30,7 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
           leading: CupertinoNavigationBarBackButton(
             color: AppColors.accent,
             onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                      const NavigationScreen()));
+              Navigator.pop(context, 'IncomeScreen');
             },
           ),
           title: Text(

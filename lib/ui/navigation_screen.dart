@@ -1,25 +1,32 @@
+import 'package:banksy/ui/community_screen.dart';
 import 'package:banksy/ui/game_screen.dart';
 import 'package:banksy/ui/home_screen.dart';
 import 'package:banksy/ui/income_screen.dart';
+import 'package:banksy/ui/news_screen.dart';
 import 'package:banksy/ui/onboard_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
 
 class NavigationScreen extends StatefulWidget {
-  const NavigationScreen({Key? key}) : super(key: key);
+  final int initialTabIndex;
+
+  const NavigationScreen({Key? key, this.initialTabIndex = 0}) : super(key: key);
+
   @override
-  State<NavigationScreen> createState() => _MyAppState();
+  State<NavigationScreen> createState() => _MyAppState(initialTabIndex);
 }
 
 class _MyAppState extends State<NavigationScreen> {
-  int _currentIndex = 0;
+  int _currentIndex;
+
+  _MyAppState(this._currentIndex);
 
   final tabs = const [
     HomeScreen(),
     IncomeScreen(),
-    OnBoardScreen(),
-    OnBoardScreen(),
+    NewsScreen(),
+    CommunityScreen(),
     GameScreen(),
   ];
 

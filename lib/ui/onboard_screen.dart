@@ -113,7 +113,7 @@ class _OnBoardState extends State<OnBoardScreen> {
                   child: InkWell(
                     onTap: () async {
                       if (index == screens.length - 1) {
-                        // await _storeOnBoardInfo();
+                        await _storeOnBoardInfo();
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

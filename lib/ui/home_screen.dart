@@ -1,11 +1,14 @@
 import 'package:banksy/data/utils/app_parser.dart';
 import 'package:banksy/theme/app_colors.dart';
 import 'package:banksy/theme/custom_app_bar.dart';
+import 'package:banksy/ui/navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../data/database_helper.dart';
+import 'community_detail_screen.dart';
+import 'news_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -158,25 +161,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'News',
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 13.0,
+            Padding(
+              padding: const EdgeInsets.only(top: 25, left: 8.0, right: 8.0, bottom: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'News',
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 13.0,
+                    ),
                   ),
-                ),
-                Text(
-                  'View all',
-                  style: TextStyle(
-                    color: AppColors.accent,
-                    fontSize: 10.0,
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NavigationScreen(initialTabIndex: 2),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'View all',
+                      style: TextStyle(
+                        color: AppColors.accent,
+                        fontSize: 10.0,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Expanded(
               child: ListView.builder(
@@ -227,8 +242,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       Row(
                                         children: [
-                                          Image.asset(
-                                            _news['authorImage'],
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(2),
+                                              image: DecorationImage(
+                                                image: AssetImage(_news['authorImage']),
+                                              ),
+                                            ),
                                             height: 14,
                                             width: 14,
                                           ),
@@ -274,24 +294,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Community',
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 13.0,
+            Padding(
+              padding: const EdgeInsets.only(top: 25, left: 8.0, right: 8.0, bottom: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Community',
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 13.0,
+                    ),
                   ),
-                ),
-                Text(
-                  'View all',
-                  style: TextStyle(
-                    color: AppColors.accent,
-                    fontSize: 10.0,
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NavigationScreen(initialTabIndex: 3),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'View all',
+                      style: TextStyle(
+                        color: AppColors.accent,
+                        fontSize: 10.0,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Expanded(
               child: ListView.builder(
@@ -317,16 +350,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Container(
-                                width: 78,
-                                height: 78,
-                                child: YoutubePlayer(
-                                  controller: _youtubePlayerController,
-                                  showVideoProgressIndicator: true,
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Container(
+                                    width: 78,
+                                    height: 78,
+                                    child: YoutubePlayer(
+                                      controller: _youtubePlayerController,
+                                      showVideoProgressIndicator: true,
+                                      aspectRatio: 16 / 9,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Positioned.fill(
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => CommunityDetailScreen(communityDetails: community),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(width: 8),
                             Expanded(
@@ -350,8 +403,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       Row(
                                         children: [
-                                          Image.asset(
-                                            community['authorImage'],
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(2),
+                                              image: DecorationImage(
+                                                image: AssetImage(community['authorImage']),
+                                              ),
+                                            ),
                                             height: 14,
                                             width: 14,
                                           ),
